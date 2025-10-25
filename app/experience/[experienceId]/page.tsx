@@ -1,4 +1,5 @@
 import { Heading, Text } from "frosted-ui";
+import Link from "next/link";
 import { ChatComposer } from "@/components/chat/ChatComposer";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { ContextPanel } from "@/components/panels/ContextPanel";
@@ -37,20 +38,35 @@ export default function ExperiencePage({
 	params: { experienceId: string };
 }) {
 	const { experienceId } = params;
+	const showDevToolsLink = process.env.NODE_ENV === "development";
 
 	return (
 		<div className="px-4 py-6 lg:px-8">
 			<div className="mx-auto flex max-w-[1400px] flex-col gap-6">
-				<header className="glass-panel rounded-3xl border border-border/40 px-6 py-5">
-					<Text size="2" color="gray" className="uppercase tracking-wide">
-						Company / Experience
-					</Text>
-					<Heading size="6" className="mt-2 text-foreground">
-						WhopGPT
-					</Heading>
-					<Text size="3" color="gray">
-						Wizard Playground · {experienceId}
-					</Text>
+				<header className="glass-panel flex flex-wrap items-start justify-between gap-4 rounded-3xl border border-border/40 px-6 py-5">
+					<div className="space-y-1">
+						<Text
+							size="2"
+							color="gray"
+							className="uppercase tracking-wide"
+						>
+							Company / Experience
+						</Text>
+						<Heading size="6" className="text-foreground">
+							WhopGPT
+						</Heading>
+						<Text size="3" color="gray">
+							Wizard Playground · {experienceId}
+						</Text>
+					</div>
+					{showDevToolsLink ? (
+						<Link
+							href="/dev/tools"
+							className="rounded-full border border-primary/40 px-4 py-2 text-sm font-medium text-primary transition hover:bg-primary/10"
+						>
+							Dev Tools
+						</Link>
+					) : null}
 				</header>
 
 				<div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">

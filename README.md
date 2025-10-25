@@ -42,3 +42,17 @@ For more info, see our docs at https://dev.whop.com/introduction
 - **Frosted UI:** The design system is installed via `frosted-ui`. Global styles + the `<Theme>` provider live in `app/providers.tsx`. Refer to the [docs](https://frostedui.com/) for component usage.
 - **Brand tokens:** Dragon Fire + Midnight variables and Tailwind extensions are centralized in `app/theme.css` and `tailwind.config.ts`, so buttons/links automatically inherit Whop colors.
 - **Routes implemented:** Visit `/experience/demo-experience` to see the chat shell with sidebar panels, and `/dashboard/demo-company` for the analytics placeholders.
+
+## Milestone 2 – Compound + Tooling
+
+| Env var | Purpose | Default |
+| --- | --- | --- |
+| `GROQ_API_KEY` | Auth for Groq Compound/Compound Mini | – |
+| `WHOP_APP_ID` | App identifier for Whop SDK/API calls | – |
+| `WHOP_API_KEY` | Server key for Whop tool actions | – |
+| `ALLOW_WRITES` | `true` enables create/update/delete; otherwise every mutating tool returns `Writes disabled (set ALLOW_WRITES=true)` | `false` |
+
+- Copy `.env.local.example` to `.env.local` and populate the secrets above. Keep `ALLOW_WRITES=false` unless you explicitly intend to modify live data.
+- Groq helpers live in `lib/groq.ts` (`compoundMini` + `compound`). They currently wrap the `/responses` endpoint and will plug into the chat agent in the next milestone.
+- Whop tooling sits behind `/api/tools` (see `lib/tools/whopAdmin.ts`). All product/plan CRUD flows use the server-only route so secrets never leak to the client bundle.
+- Use the temporary harness at `/dev/tools` (only in `NODE_ENV=development`) to send test payloads for each tool action and inspect the JSON response.
