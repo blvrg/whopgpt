@@ -99,20 +99,43 @@ export const ToolRequestSchema = ToolRequestSchemaInternal;
 
 type ToolResult<T> = { ok: true; data: T } | { ok: false; error: string };
 
+function success<T>(data: T): ToolResult<T> {
+	return { ok: true as const, data };
+}
+
+function failure(message: string): ToolResult<never> {
+	return { ok: false as const, error: message };
+}
+
 type Connection<T> = {
-	data?: T[];
-	nodes?: T[];
-	edges?: Array<{ node?: T }>;
+	data?: Array<T | null> | null;
+	nodes?: Array<T | null> | null;
+	edges?: Array<{ node?: T | null } | null> | null;
 };
 
-function normalizeConnection<T>(connection: Connection<T> | T[] | undefined) {
+function normalizeConnection<T>(
+	connection: Connection<T> | Array<T | null> | undefined | null,
+) {
 	if (!connection) return [];
-	if (Array.isArray(connection)) return connection;
-	if (Array.isArray(connection.data)) return connection.data;
-	if (Array.isArray(connection.nodes)) return connection.nodes;
-	if (Array.isArray(connection.edges)) {
-		return connection.edges.map((edge) => edge?.node).filter(Boolean) as T[];
+	const prune = (items?: Array<T | null> | null) =>
+		Array.isArray(items) ? (items.filter(Boolean) as T[]) : [];
+
+	if (Array.isArray(connection)) {
+		return connection.filter(Boolean) as T[];
 	}
+
+	const data = prune(connection.data);
+	if (data.length) return data;
+
+	const nodes = prune(connection.nodes);
+	if (nodes.length) return nodes;
+
+	if (Array.isArray(connection.edges)) {
+		return connection.edges
+			.map((edge) => edge?.node ?? null)
+			.filter(Boolean) as T[];
+	}
+
 	return [];
 }
 
@@ -157,7 +180,7 @@ async function whopRest<T>(path: string, init?: RequestInit): Promise<T> {
 
 function guardWrites(): ToolResult<never> | null {
 	if (!allowWrites) {
-		return { ok: false, error: WRITES_DISABLED_ERROR };
+		return failure(WRITES_DISABLED_ERROR);
 	}
 
 	return null;
@@ -192,14 +215,15 @@ function buildPlanPayload(
 export async function listProducts(companyId: string) {
 	try {
 		const client = getWhopClient();
-		const variables: Record<string, string> = { companyId };
-		const company = await client.companies.listAccessPasses(variables);
+		const company = await client.companies.listAccessPasses({
+			companyId,
+		});
 
 		const accessPasses = normalizeConnection(company?.accessPasses);
 
-		return { ok: true, data: accessPasses } satisfies ToolResult<unknown>;
+		return success(accessPasses);
 	} catch (error) {
-		return { ok: false, error: getErrorMessage(error) };
+		return failure(getErrorMessage(error));
 	}
 }
 
@@ -214,9 +238,9 @@ export async function createProduct(
 			method: "POST",
 			body: JSON.stringify(buildProductPayload(input)),
 		});
-		return { ok: true, data } satisfies ToolResult<unknown>;
+		return success(data);
 	} catch (error) {
-		return { ok: false, error: getErrorMessage(error) };
+		return failure(getErrorMessage(error));
 	}
 }
 
@@ -243,9 +267,9 @@ export async function updateProduct(
 			method: "PATCH",
 			body: JSON.stringify(payload),
 		});
-		return { ok: true, data } satisfies ToolResult<unknown>;
+		return success(data);
 	} catch (error) {
-		return { ok: false, error: getErrorMessage(error) };
+		return failure(getErrorMessage(error));
 	}
 }
 
@@ -255,22 +279,39 @@ export async function deleteProduct(id: string) {
 
 	try {
 		await whopRest(`/products/${id}`, { method: "DELETE" });
-		return { ok: true, data: { id } } satisfies ToolResult<unknown>;
+		return success({ id });
 	} catch (error) {
-		return { ok: false, error: getErrorMessage(error) };
+		return failure(getErrorMessage(error));
 	}
 }
 
 export async function listPlans(companyId: string, productId?: string) {
 	try {
 		const client = getWhopClient();
-		const variables: Record<string, string> = { companyId };
-		if (productId) variables.productId = productId;
-		const company = await client.companies.listPlans(variables);
-		const plans = normalizeConnection(company?.plans);
-		return { ok: true, data: plans } satisfies ToolResult<unknown>;
+		const company = await client.companies.listPlans({
+			companyId,
+		});
+		let plans = normalizeConnection(company?.plans);
+
+		if (productId) {
+			plans = plans.filter((plan) => {
+				if (
+					plan &&
+					typeof plan === "object" &&
+					"product" in plan &&
+					plan.product &&
+					typeof plan.product === "object" &&
+					plan.product !== null
+				) {
+					return (plan.product as { id?: string }).id === productId;
+				}
+				return false;
+			});
+		}
+
+		return success(plans);
 	} catch (error) {
-		return { ok: false, error: getErrorMessage(error) };
+		return failure(getErrorMessage(error));
 	}
 }
 
@@ -283,9 +324,9 @@ export async function createPlan(input: z.infer<typeof PlanCreateInputSchema>) {
 			method: "POST",
 			body: JSON.stringify(buildPlanPayload(input)),
 		});
-		return { ok: true, data } satisfies ToolResult<unknown>;
+		return success(data);
 	} catch (error) {
-		return { ok: false, error: getErrorMessage(error) };
+		return failure(getErrorMessage(error));
 	}
 }
 
@@ -315,9 +356,9 @@ export async function updatePlan(
 			method: "PATCH",
 			body: JSON.stringify(payload),
 		});
-		return { ok: true, data } satisfies ToolResult<unknown>;
+		return success(data);
 	} catch (error) {
-		return { ok: false, error: getErrorMessage(error) };
+		return failure(getErrorMessage(error));
 	}
 }
 
@@ -327,8 +368,8 @@ export async function deletePlan(id: string) {
 
 	try {
 		await whopRest(`/plans/${id}`, { method: "DELETE" });
-		return { ok: true, data: { id } } satisfies ToolResult<unknown>;
+		return success({ id });
 	} catch (error) {
-		return { ok: false, error: getErrorMessage(error) };
+		return failure(getErrorMessage(error));
 	}
 }
