@@ -8,7 +8,7 @@ To run this project:
 
 2. Create a Whop App on your [whop developer dashboard](https://whop.com/dashboard/developer/), then go to the "Hosting" section and:
 	- Ensure the "Base URL" is set to the domain you intend to deploy the site on.
-	- Ensure the "App path" is set to `/experience/[experienceId]`
+	- Ensure the "App path" is set to `/experience/[experienceId]` (a fallback `/experiences/[experienceId]` route is also kept for existing installs)
 	- Ensure the "Dashboard path" is set to `/dashboard/[companyId]`
 	- Ensure the "Discover path" is set to `/discover`
 
