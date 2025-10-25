@@ -8,7 +8,7 @@ To run this project:
 
 2. Create a Whop App on your [whop developer dashboard](https://whop.com/dashboard/developer/), then go to the "Hosting" section and:
 	- Ensure the "Base URL" is set to the domain you intend to deploy the site on.
-	- Ensure the "App path" is set to `/experiences/[experienceId]`
+	- Ensure the "App path" is set to `/experience/[experienceId]`
 	- Ensure the "Dashboard path" is set to `/dashboard/[companyId]`
 	- Ensure the "Discover path" is set to `/discover`
 
@@ -35,3 +35,10 @@ a
 
 
 For more info, see our docs at https://dev.whop.com/introduction
+
+## Milestone 1 – Visual + Routes
+
+- **Install & run:** `pnpm i && pnpm dev`
+- **Frosted UI:** The design system is installed via `frosted-ui`. Global styles + the `<Theme>` provider live in `app/providers.tsx`. Refer to the [docs](https://frostedui.com/) for component usage.
+- **Brand tokens:** Dragon Fire + Midnight variables and Tailwind extensions are centralized in `app/theme.css` and `tailwind.config.ts`, so buttons/links automatically inherit Whop colors.
+- **Routes implemented:** Visit `/experience/demo-experience` to see the chat shell with sidebar panels, and `/dashboard/demo-company` for the analytics placeholders.

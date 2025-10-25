@@ -1,6 +1,6 @@
-import { WhopApp } from "@whop/react/components";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { AppProviders } from "./providers";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,9 +26,9 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				className={`${geistSans.variable} ${geistMono.variable} antialiased bg-surface text-foreground`}
 			>
-				<WhopApp>{children}</WhopApp>
+				<AppProviders>{children}</AppProviders>
 			</body>
 		</html>
 	);

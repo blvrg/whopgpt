@@ -1,0 +1,177 @@
+:root {
+	--color-dragon-fire: #fa4616;
+	--color-midnight: #141212;
+	--color-surface: #f9f6f3;
+	--color-panel: #ffffff;
+	--color-panel-muted: #f1ede6;
+	--color-foreground: #1f1b1a;
+	--color-foreground-muted: #5c5754;
+	--color-border-soft: rgba(20, 18, 18, 0.12);
+
+	--background: var(--color-surface);
+	--foreground: var(--color-foreground);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: var(--color-midnight);
+		--color-panel: #1c1a1a;
+		--color-panel-muted: #1f1d1d;
+		--color-foreground: #f7f2ee;
+		--color-foreground-muted: #c5c1be;
+		--color-border-soft: rgba(250, 70, 22, 0.4);
+	}
+}
+
+.theme-whop {
+	--fui-color-primary: var(--color-dragon-fire);
+	--fui-color-primary-contrast: #ffffff;
+	--fui-color-midnight: var(--color-midnight);
+	--surface-strong: var(--color-panel);
+	--surface-muted: var(--color-panel-muted);
+}
+
+.theme-whop[data-accent-color="orange"] {
+	--accent-1: color-mix(in srgb, var(--color-dragon-fire) 6%, #ffffff);
+	--accent-2: color-mix(in srgb, var(--color-dragon-fire) 12%, #ffffff);
+	--accent-3: color-mix(in srgb, var(--color-dragon-fire) 18%, #ffffff);
+	--accent-4: color-mix(in srgb, var(--color-dragon-fire) 28%, #ffffff);
+	--accent-5: color-mix(in srgb, var(--color-dragon-fire) 38%, #ffffff);
+	--accent-6: color-mix(in srgb, var(--color-dragon-fire) 52%, #ffffff);
+	--accent-7: color-mix(in srgb, var(--color-dragon-fire) 68%, #ffffff);
+	--accent-8: color-mix(in srgb, var(--color-dragon-fire) 78%, #ffffff);
+	--accent-9: var(--color-dragon-fire);
+	--accent-9-contrast: #ffffff;
+	--accent-10: #d43a12;
+	--accent-11: #a6290b;
+	--accent-12: #460f04;
+
+	--accent-a4: color-mix(in srgb, var(--color-dragon-fire) 35%, transparent);
+	--accent-a5: color-mix(in srgb, var(--color-dragon-fire) 45%, transparent);
+	--accent-a6: color-mix(in srgb, var(--color-dragon-fire) 55%, transparent);
+	--accent-a7: color-mix(in srgb, var(--color-dragon-fire) 65%, transparent);
+	--accent-a8: color-mix(in srgb, var(--color-dragon-fire) 75%, transparent);
+	--accent-a9: color-mix(in srgb, var(--color-dragon-fire) 85%, transparent);
+	--accent-a10: color-mix(in srgb, var(--color-dragon-fire) 95%, transparent);
+	--accent-a11: color-mix(in srgb, var(--color-dragon-fire) 85%, transparent);
+	--accent-a12: color-mix(in srgb, var(--color-dragon-fire) 65%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+	.theme-whop {
+		--surface-strong: #1f1c1c;
+		--surface-muted: #1e1a1a;
+	}
+
+	.theme-whop[data-accent-color="orange"] {
+		--accent-1: color-mix(
+			in srgb,
+			var(--color-midnight) 85%,
+			var(--color-dragon-fire) 15%
+		);
+		--accent-2: color-mix(
+			in srgb,
+			var(--color-midnight) 78%,
+			var(--color-dragon-fire) 22%
+		);
+		--accent-3: color-mix(
+			in srgb,
+			var(--color-midnight) 68%,
+			var(--color-dragon-fire) 32%
+		);
+		--accent-4: color-mix(
+			in srgb,
+			var(--color-midnight) 60%,
+			var(--color-dragon-fire) 40%
+		);
+		--accent-5: color-mix(
+			in srgb,
+			var(--color-midnight) 52%,
+			var(--color-dragon-fire) 48%
+		);
+		--accent-6: color-mix(
+			in srgb,
+			var(--color-midnight) 45%,
+			var(--color-dragon-fire) 55%
+		);
+		--accent-7: color-mix(
+			in srgb,
+			var(--color-midnight) 38%,
+			var(--color-dragon-fire) 62%
+		);
+		--accent-8: color-mix(
+			in srgb,
+			var(--color-midnight) 28%,
+			var(--color-dragon-fire) 72%
+		);
+		--accent-9: var(--color-dragon-fire);
+		--accent-10: #ff6b3a;
+		--accent-11: #ff8c61;
+		--accent-12: #ffd4c1;
+
+		--accent-a4: color-mix(
+			in srgb,
+			var(--color-dragon-fire) 45%,
+			transparent
+		);
+		--accent-a5: color-mix(
+			in srgb,
+			var(--color-dragon-fire) 55%,
+			transparent
+		);
+		--accent-a6: color-mix(
+			in srgb,
+			var(--color-dragon-fire) 65%,
+			transparent
+		);
+		--accent-a7: color-mix(
+			in srgb,
+			var(--color-dragon-fire) 75%,
+			transparent
+		);
+		--accent-a8: color-mix(
+			in srgb,
+			var(--color-dragon-fire) 85%,
+			transparent
+		);
+		--accent-a9: color-mix(
+			in srgb,
+			var(--color-dragon-fire) 95%,
+			transparent
+		);
+		--accent-a10: color-mix(
+			in srgb,
+			var(--color-dragon-fire) 90%,
+			transparent
+		);
+		--accent-a11: color-mix(
+			in srgb,
+			var(--color-dragon-fire) 85%,
+			transparent
+		);
+		--accent-a12: color-mix(
+			in srgb,
+			var(--color-dragon-fire) 70%,
+			transparent
+		);
+	}
+}
+
+.glass-panel {
+	background: color-mix(in srgb, var(--surface-strong) 80%, white 20%);
+	backdrop-filter: blur(16px);
+	box-shadow:
+		0 20px 60px rgba(20, 18, 18, 0.08),
+		0 1px 0 rgba(255, 255, 255, 0.6) inset;
+}
+
+.dark .glass-panel {
+	background: color-mix(
+		in srgb,
+		var(--surface-strong) 92%,
+		var(--color-midnight) 8%
+	);
+	box-shadow:
+		0 25px 70px rgba(0, 0, 0, 0.55),
+		0 1px 0 rgba(255, 255, 255, 0.04) inset;
+}
